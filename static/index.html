@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rust Actix Web Form</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Rust Backend Form</h1>
+        <form id="detailsForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required>
+
+            <label for="work">Work:</label>
+            <input type="text" id="work" name="work" required>
+
+            <button type="submit">Send</button>
+        </form>
+
+        <div id="response"></div>
+    </div>
+
+    <script>
+        document.getElementById("detailsForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const age = document.getElementById("age").value;
+            const work = document.getElementById("work").value;
+
+            const res = await fetch("/details", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, work, age: Number(age) })
+            });
+
+            const text = await res.text();
+            document.getElementById("response").innerText = text;
+        });
+    </script>
+</body>
+</html>
